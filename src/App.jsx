@@ -5,9 +5,11 @@ import Home from './pages/Home';
 import ExchangeRates from './pages/ExchangeRates';
 import About from './pages/About';
 import ErrorPage from './pages/ErrorPage';
+import {ThemeContextProvider} from './context/ThemeContext';
 
 function App() {
   return (
+    <ThemeContextProvider>
     <Router>
       <Header />
       <Routes>
@@ -17,6 +19,7 @@ function App() {
         <Route path="/error" element={<ErrorPage />} />
       </Routes>
     </Router>
+    </ThemeContextProvider>
   );
 }
 

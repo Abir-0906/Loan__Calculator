@@ -1,9 +1,10 @@
+// ExchangeRates.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
-  TablePagination, Typography, Box
+  TablePagination, Typography, Container
 } from '@mui/material';
+import axios from 'axios';
 
 const ExchangeRates = () => {
   const [rates, setRates] = useState({});
@@ -11,69 +12,60 @@ const ExchangeRates = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  // Replace with your actual API key from ExchangeRate-API
-  const API_KEY = 'cd3acbcb5e9ee7fe9e58ed3a';
-  const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
+  const API_KEY = ' cd3acbcb5e9ee7fe9e58ed3a';
+  const BASE_URL = ` https://v6.exchangerate-api.com/v6/cd3acbcb5e9ee7fe9e58ed3a/latest/USD`;
 
   useEffect(() => {
     axios.get(BASE_URL)
-      .then(res => {
-        const data = res.data.conversion_rates || {};
-        setRates(data);
-        setCurrencyKeys(Object.keys(data).sort()); // Sort currency keys for consistent display
+      .then(response => {
+        const data = response.data;
+        setRates(data.conversion_rates || {});
+        setCurrencyKeys(Object.keys(data.conversion_rates || {}));
       })
-      .catch(err => {
-        console.error('Failed to fetch exchange rates:', err);
-      });
-  }, [API_KEY]); // Re-fetch if the API key changes (though unlikely in this setup)
-
-  const handleChangePage = (event, newPage) => setPage(newPage);
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+      .catch(err => console.error('Failed to fetch rates:', err));
+  }, []);
 
   const slicedKeys = currencyKeys.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
-    <Paper sx={{ width: '95%', margin: 'auto', mt: 3 }}>
-      <Typography variant="h6" sx={{ p: 2 }}>
-        Live Exchange Rates (Base: USD)
-      </Typography>
-      <TableContainer>
+    <Container maxWidth="lg" sx={{ mt: 4 }}>
+      <Paper elevation={3} sx={{ bgcolor: 'background.paper', p: 2 }}>
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Live Exchange Rates (Base: USD)
+        </Typography>
+        <TableContainer>
         <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell><strong>Currency</strong></TableCell>
-              <TableCell align="right"><strong>Rate</strong></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {slicedKeys.map(code => (
-              <TableRow key={code}>
-                <TableCell component="th" scope="row">
-                  {code}
-                </TableCell>
-                <TableCell align="right">
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                    {rates[code]}
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5,10, 25, 50,100]}
-        component="div"
-        count={currencyKeys.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+  <TableHead>
+    <TableRow>
+      <TableCell sx={{ fontWeight: 'bold', width: '50%' }}>Currency</TableCell>
+      <TableCell sx={{ fontWeight: 'bold', textAlign: 'right', width: '50%' }}>Rate</TableCell>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    {slicedKeys.map(code => (
+      <TableRow key={code}>
+        <TableCell sx={{ width: '50%' }}>{code}</TableCell>
+        <TableCell sx={{ textAlign: 'right', width: '50%' }}>{rates[code]}</TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
+
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50]}
+          component="div"
+          count={currencyKeys.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(e, newPage) => setPage(newPage)}
+          onRowsPerPageChange={(e) => {
+            setRowsPerPage(+e.target.value);
+            setPage(0);
+          }}
+        />
+      </Paper>
+    </Container>
   );
 };
 
