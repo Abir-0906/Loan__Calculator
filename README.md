@@ -1,7 +1,7 @@
 
 
 🔗 Live Demo
-👉 https://loan-calculator-eight-eta.vercel.app/
+👉 https://loan-calculator-dusky.vercel.app/
 Replace with your actual deployed link (Vercel/Netlify)
 
 🛠️ Tech Stack
