@@ -22,7 +22,7 @@ const Header = () => {
     { label: 'HOME', to: '/' },
     { label: 'EXCHANGE RATES (LIVE)', to: '/exchange' },
     { label: 'ABOUT', to: '/about' },
-    { label: 'ERROR PAGE', to: '/error' },
+    { label: 'ERROR PAGE', to: '*' },
   ];
 
   return (
@@ -55,7 +55,7 @@ const Header = () => {
                   color="inherit"
                   component={Link}
                   to={item.to}
-                  sx={{ color: theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.text.primary }}
+                  sx={{ color: theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.text.primary.contrastText }}
                 >
                   {item.label}
                 </Button>
@@ -71,18 +71,34 @@ const Header = () => {
 
       {/* Drawer for Mobile */}
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-          <List>
-            {navItems.map((item) => (
-              <ListItem button key={item.to} component={Link} to={item.to}>
-                <ListItemText primary={item.label} />
-              </ListItem>
-            ))}
-            <ListItem>
-              <Switch onChange={colorMode.toggleColorMode} />
-            </ListItem>
-          </List>
-        </Box>
+      <Box
+  sx={{
+    width: 250,
+    bgcolor: theme.palette.background.default,
+    color: theme.palette.text.primary,
+    height: '100%',
+  }}
+  role="presentation"
+  onClick={toggleDrawer(false)}
+>
+  <List>
+    {navItems.map((item) => (
+      <ListItem button key={item.to} component={Link} to={item.to}>
+        <ListItemText
+          primary={item.label}
+          sx={{ color: theme.palette.text.primary }}
+        />
+      </ListItem>
+    ))}
+    <ListItem>
+      <Switch
+        onChange={colorMode.toggleColorMode}
+        checked={theme.palette.mode === 'dark'}
+      />
+    </ListItem>
+  </List>
+</Box>
+
       </Drawer>
     </>
   );
