@@ -11,8 +11,8 @@ const ExchangeRates = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  //const API_KEY = import.meta.env.VITE_EXCHANGE_API_KEY;
-  const API_KEY= 'cd3acbcb5e9ee7fe9e58ed3a' ;
+  const API_KEY = import.meta.env.VITE_EXCHANGE_API_KEY;
+  //const API_KEY= 'cd3acbcb5e9ee7fe9e58ed3a' ;
   const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
  
 
