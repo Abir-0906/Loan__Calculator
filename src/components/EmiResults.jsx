@@ -1,12 +1,21 @@
-// src/components/EmiResult.js
+// src/components/EmiResult.jsx
 import React from 'react';
 import {
-  Typography, Button, FormControl, InputLabel,
-  Select, MenuItem, Paper, Table, TableHead,
-  TableRow, TableCell, TableBody, useTheme
+  Typography,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  useTheme
 } from '@mui/material';
 import { currencySymbols } from '../constants/currencySymbols';
-
 
 const exchangeRatesMock = {
   USD: 1,
@@ -22,16 +31,28 @@ const EmiResult = ({ emi, schedule, currency, updateCurrency, resetTable }) => {
   const theme = useTheme();
 
   const convertCurrency = (value) => {
-    return (value * exchangeRatesMock[currency]).toFixed(2);
+    const rate = exchangeRatesMock[currency] || 1;
+    return (value * rate).toFixed(2);
+  };
+
+  const getSymbol = (code) => {
+    return currencySymbols[code] || code + ' ';
   };
 
   return (
     <>
       {emi > 0 && (
         <Paper sx={{ p: 3, mb: 4, backgroundColor: theme.palette.background.paper }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap'
+            }}
+          >
             <Typography variant="h6" align="center" sx={{ flexGrow: 1 }}>
-              Monthly EMI: {currencySymbols[currency]}{convertCurrency(emi)}
+              Monthly EMI: {getSymbol(currency)}{convertCurrency(emi)}
             </Typography>
 
             <Button
@@ -52,13 +73,15 @@ const EmiResult = ({ emi, schedule, currency, updateCurrency, resetTable }) => {
               sx={{ width: 120 }}
             >
               {Object.keys(currencySymbols).map((curr) => (
-                <MenuItem key={curr} value={curr}>{curr}</MenuItem>
+                <MenuItem key={curr} value={curr}>
+                  {curr}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
 
           <Typography sx={{ mt: 2 }}>
-            Converted EMI: <strong>{currencySymbols[currency]}{convertCurrency(emi)}</strong>
+            Converted EMI: <strong>{getSymbol(currency)}{convertCurrency(emi)}</strong>
           </Typography>
         </Paper>
       )}
@@ -83,13 +106,13 @@ const EmiResult = ({ emi, schedule, currency, updateCurrency, resetTable }) => {
                   <TableRow key={index}>
                     <TableCell>{item.month}</TableCell>
                     <TableCell>
-                      {currencySymbols[currency]}{convertCurrency(item.principal)}
+                      {getSymbol(currency)}{convertCurrency(item.principal)}
                     </TableCell>
                     <TableCell>
-                      {currencySymbols[currency]}{convertCurrency(item.interest)}
+                      {getSymbol(currency)}{convertCurrency(item.interest)}
                     </TableCell>
                     <TableCell>
-                      {currencySymbols[currency]}{convertCurrency(item.balance)}
+                      {getSymbol(currency)}{convertCurrency(item.balance)}
                     </TableCell>
                   </TableRow>
                 ))}
