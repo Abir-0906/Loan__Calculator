@@ -48,7 +48,7 @@ src/
 bash
 Copy
 Edit
-git clone https://github.com/your-username/loan-calculator-app.git
+git clone https://github.com/Abir-0906/Loan__Calculator.git
 cd loan-calculator-app
 2. Install dependencies
 bash
@@ -60,7 +60,7 @@ bash
 Copy
 Edit
 npm start
-App will run on: http://localhost:3000
+App will run on: http://localhost:5173
 
 📌 Key Implementation Steps
 EMI Formula Used:
@@ -108,9 +108,7 @@ You can deploy using:
 
 Vercel
 
-Netlify
 
-GitHub Pages
 
 Make sure to:
 
